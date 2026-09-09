@@ -14,36 +14,68 @@
             <button id="toggle-toc" class="btn">目录</button>
             <span id="book-title">未选择书籍</span>
             <div class="toolbar-right">
-                <button id="theme-toggle" class="btn" title="切换主题">🌙</button>
+                <div class="font-controls">
+                    <button id="font-decrease" class="btn icon-btn" title="减小字号">A−</button>
+                    <span id="font-size-label" title="当前字号">17</span>
+                    <button id="font-increase" class="btn icon-btn" title="增大字号">A+</button>
+                    <button id="font-family-toggle" class="btn font-family-btn" title="切换宋体/黑体">宋体</button>
+                </div>
+                <button id="theme-toggle" class="btn icon-btn" title="切换主题">🌙</button>
             </div>
         </header>
 
         <!-- 主要内容区域 -->
         <div class="main-content">
-            <!-- 目录面板 -->
-            <aside id="toc-panel" class="toc-panel hidden">
+            <!-- 目录面板（抽屉式） -->
+            <aside id="toc-panel" class="toc-panel">
                 <h3>目录</h3>
                 <ul id="toc-list"></ul>
             </aside>
+            <div id="toc-mask" class="toc-mask"></div>
 
             <!-- 阅读区域 -->
             <main class="reader-area">
-                <div id="content" class="content"></div>
-                
-                <!-- 章节导航控件 -->
+                <div id="viewer" class="viewer"></div>
+
+                <!-- 空状态 / 提示 -->
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-icon">📖</div>
+                    <p class="empty-title">打开一本 EPUB 开始阅读</p>
+                    <p class="empty-sub">点击左上角「打开书籍」，或把 .epub 文件拖进窗口</p>
+                </div>
+
+                <!-- 加载指示 -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p id="loading-text">正在加载书籍…</p>
+                </div>
+
+                <!-- 底部导航与进度 -->
                 <div class="navigation">
-                    <button id="prev-page" class="nav-btn" disabled>← 上一章</button>
-                    <span id="page-info">第 0 章，共 0 章</span>
-                    <button id="next-page" class="nav-btn" disabled>下一章 →</button>
+                    <button id="prev-page" class="nav-btn" disabled>← 上一页</button>
+                    <div class="progress-wrap">
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <span id="progress-text">--%</span>
+                    </div>
+                    <button id="next-page" class="nav-btn" disabled>下一页 →</button>
                 </div>
             </main>
+        </div>
+
+        <!-- 拖拽提示遮罩 -->
+        <div id="drop-overlay" class="drop-overlay">
+            <div class="drop-box">松开以打开 EPUB 文件</div>
         </div>
 
         <!-- 文件选择输入 -->
         <input type="file" id="file-input" accept=".epub" class="hidden">
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
+    <!-- 本地依赖：epub.js 依赖全局 JSZip，必须先加载 -->
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/epub.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
